@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "justify-alpha"
+version = "0.1"
+description = "Calculates Bayes Factor-equivalent frequentist alpha thresholds using the BIC approximation to prevent the Lindley Paradox."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    { name = "Diego Alcaraz Beltran", email = "alcaraz.b.d@gmail.com" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "scipy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/DiegoAlcaraz/justify-alpha"
