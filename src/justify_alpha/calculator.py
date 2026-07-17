@@ -118,5 +118,4 @@ def bayes_alpha(test_type, alternative, target_bf10, target_total_n):
         else:
             print("No valid data points generated to plot. Target BF might be too high for these sample sizes.")
 
-    if __name__ == "__main__":
-        run_analysis()
+    run_analysis()
