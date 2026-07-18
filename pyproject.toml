@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "justify-alpha"
-version = "0.1"
+version = "0.2"
 description = "Calculates Bayes Factor-equivalent frequentist alpha thresholds using the BIC approximation to prevent the Lindley Paradox."
 readme = "README.md"
 license = {file = "LICENSE"}
