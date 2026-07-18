@@ -55,7 +55,6 @@ calculator.bayes_alpha(
     target_total_n=100        # Your total sample size across all groups
 )
 ```
- .
 
 **Parameter** *options* and *descriptions* are detailed below:
 
