@@ -3,23 +3,25 @@
 [![PyPI version](https://badge.fury.io/py/justify-alpha.svg)](https://badge.fury.io/py/justify-alpha)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Python library that translates a target Bayes Factor into an exact frequentist alpha ($\alpha$) threshold. This allows researchers to maintain strict evidence standards and avoid the **Lindley Paradox** in large sample sizes, while still reporting traditional $p$-values. Useful tool for justifying alpha values and 
-
-
+A python package that translates a target Bayes Factor into an exact frequentist alpha ($\alpha$) threshold using the BIC approximation. This allows researchers to maintain strict evidence standards and avoid the **Lindley Paradox** in large sample sizes, while still reporting traditional  $p$-values. Useful tool for providing a justification for pragmatic alpha ($\alpha$) thresholds; also useful for pre-registration.
 
 ## The Problem: The Lindley Paradox
-Under traditional frequentist testing, the significance threshold ($\alpha$) is kept fixed (usually at 0.05). However, as your sample size ($N$) grows, your statistical power increases and the standard error shrinks. Eventually, even a microscopic, practically meaningless effect size will easily yield a $p$-value less than 0.05. 
+Under traditional frequentist testing, the significance threshold ($\alpha$) is kept fixed (usually at 0.05). The Lindley Paradox (or Jeffreys-Lindley Paradox) is a phenomenon in statistics where both traditional frequentist analysis and Bayesian analysis of the same dataset reach contradictory conclusions (Lindley, 1957).
 
-This creates a paradox (i.e., Lindley paradox; Lindley, 1957). Such "paradox" occurs when a frequentist test claims overwhelming evidence against the null (i.e., $p < 0.05$), while a Bayesian analysis of the exact same data shows that the null hypothesis is actually far more likely.
+This “paradox” (though arguably more aptly defined as a statistical phenomenon) materialises itself when the frequentist $p$-value strongly rejects the null hypothesis (indicating overwhelming evidence against the null; i.e., $p < 0.05$), while a Bayesian analysis of the exact same data shows that the null is actually far more likely; hence the contradiction. Such phenomenon occurs as a symptom of the sensitivity of frequentist analysis to trivial deviations from the null.
+
+A short explanation ensues as follows. Under traditional frequentist testing, the significance threshold ($\alpha$) is kept fixed (usually at 0.05). Frequentist $p$-values evaluate how surprising the data (or more extreme data) would be if the null hypothesis were true. The formula for statistical significance is very related to sample size ($N$); as $N$ approaches infinity, the standard error shrinks towards 0. As such, with a massive sample size, a frequentist test will flag extremely tiny (trivial) deviations from the null as “statistically significant” (i.e., $p < 0.05$). This over-sensitivity to practically meaningless effects sizes (i.e., to trivial deviations from the null), ultimately results in the aforementioned “paradox.”
+
 
 ## The Solution: A Hybrid Bridge
-While researchers like Maier & Lakens (2022) advocate for justifying alpha levels, implementing their frameworks usually requires complex numerical integration or R programming.
+Researchers like Maier & Lakens (2022) advocate for justifying alpha via calculating the exact alpha ($\alpha$) threshold that corresponds to a specific Bayesian level of evidence (e.g., a Bayes Factor of 3; or alternatively via compromise power analysis).  Such a framework usually requires complex numerical integration or R programming.
 
-This package provides an elegant Python-native solution using the **BIC (Bayesian Information Criterion) Approximation** formalized by Wagenmakers (2007). By treating hypothesis testing as a model-selection competition, the BIC approximation imposes a logarithmic penalty for sample size ($\ln N$). 
+Rather than this, the present package provides an elegant Python-native solution using the **BIC (Bayesian Information Criterion) Approximation** formalised by Wagenmakers (2007). By treating hypothesis testing as a model-selection competition (i.e., of the null vs. the alternative), the BIC approximation imposes a logarithmic penalty for the sample size ($ln N$).
 
-Instead of guessing an expected effect size or setting arbitrary statistical power, you simply define the level of evidence you want (e.g., a Bayes Factor of $BF_{10} = 3.0$ for "moderate evidence" or $10.0$ for "strong evidence"). The package calculates the exact frequentist $\alpha$ required to achieve that target Bayes Factor given your sample size ($N$). 
+Instead of guessing an expected effect size or setting arbitrary power, you simply define the level of evidence you want (e.g., a Bayes Factor of $BF_{10} = 3.0$ for “moderate evidence” or $10.0$ for “strong evidence”). The package calculates the exact frequentist alpha ($\alpha$) required to achieve that target Bayes Factor given your sample size ($N$).
 
 As your sample size grows, the required $\alpha$ threshold automatically tightens, thus preventing the Lindley paradox from triggering on trivial effects.
+
 
 ## How the Package Calculates the Maths
 This package uses the **Bayesian Information Criterion (BIC)** approximation to calculate your alpha threshold. 
@@ -55,7 +57,6 @@ calculator.bayes_alpha(
     target_total_n=100        # Your total sample size across all groups
 )
 ```
- .
 
 **Parameter** *options* and *descriptions* are detailed below:
 
@@ -72,12 +73,12 @@ When you execute the function, the package performs the following actions automa
 1. **Console Output:** Prints a clear text summary in your terminal showing exact alpha ($\alpha$) threshold required to maintain your target Bayes Factor given your sample size ($N$).
 
 
-2. **Visualization:** Produces a Matplotlib window displaying a live-rendered curve, illustrating how the required alpha threshold varies across different sample sizes (ranging from 20 up to your target $N$ (```target_total_n```), or 1000). The graph also highlights your specific study's ```target_total_n``` and its corresponding calculated alpha ($\alpha$) threshold, showing the precise point where your selected sample size ($N$) on the curve.
+2. **Visualization:** Produces a Matplotlib window displaying a live-rendered curve, illustrating how the required alpha threshold varies across different sample sizes (ranging from 20 up to your target $N$, ```target_total_n```, or 1000). The graph also highlights your specific study's ```target_total_n``` and its corresponding calculated alpha ($\alpha$) threshold, showing the precise point where your selected sample size ($N$) lies on the curve.
 
 
 ## Dependencies
 
-This package relies on standard scientific Python libraries, which are installed automatically alongside it:
+This package relies on the following standard scientific Python libraries, which are installed automatically alongside it:
 * `numpy`
 * `scipy`
 * `matplotlib`
